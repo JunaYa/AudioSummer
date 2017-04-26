@@ -3,7 +3,8 @@
     package="audiosummer.github.me.audiosummer" >
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"/>
         <receiver android:name=".HeadSetBroadCastReceiver"/>
+        <activity android:name=".MediaExtractorActivity"/>
     </application>
 
 </manifest>
