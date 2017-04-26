@@ -9,70 +9,56 @@
     android:orientation="vertical"
     tools:context="audiosummer.github.me.audiosummer.StartActivity">
 
-    <FrameLayout
-        android:id="@+id/content"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:dividerPadding="4dp"
+                      android:showDividers="middle"
+                      android:paddingRight="16dp"
+                      android:paddingLeft="16dp"
+                      android:divider="@drawable/ic_divider"
+                      android:orientation="vertical">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_music"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/tv_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
 
-                <ImageView
-                    android:id="@+id/iv_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:contentDescription="image_desc"
-                    android:src="@mipmap/ic_launcher"/>
+            <TextView
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/ic_item_bg"
+                android:text="save"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
+            <TextView
+                android:id="@+id/btn_playback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/ic_item_bg"
+                android:text="playback"/>
 
-                    <Button
-                        android:id="@+id/btn_save"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="save"/>
+            <TextView
+                android:id="@+id/btn_media_extractor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/ic_item_bg"
+                android:text="MeidaExtractor"/>
 
-                    <Button
-                        android:id="@+id/btn_playback"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:text="playback"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-
-    </FrameLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
