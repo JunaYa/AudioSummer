@@ -24,13 +24,10 @@ import audiosummer.github.me.audiosummer.util.BytesTransUtil;
 import audiosummer.github.me.audiosummer.util.FileUtils;
 import audiosummer.github.me.audiosummer.util.Song;
 
-/**
- * @author slack
- * @time 17/2/6 下午1:47
- */
 public class MainActivity extends AppCompatActivity {
 
     private String mp3FilePath;
+    private String mp3FilePath2;
     private File medicCodecFile = null;
     private Button mediaCodecBtn, recodeMixBtn;
 
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecordMixTask mRecordMixTask;
     private File mAudioFile = null;
-    private boolean mIsRecording = false, mIsPlaying = false;
+    private boolean mIsRecording = false;
     private int mFrequence = 44100;
     private int mChannelConfig = AudioFormat.CHANNEL_IN_MONO;//单音轨 保证能在所有设备上工作
     private int mChannelStereo = AudioFormat.CHANNEL_IN_STEREO;
@@ -48,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private AudioEncoder mAudioEncoder;
 
 
-    private PlayBackMusic mPlayBackMusic = new PlayBackMusic(mp3FilePath);
+    private PlayBackMusic mPlayBackMusic;
+    private PlayBackMusic mPlayBackMusic2;
 
 
     @Override
@@ -69,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
         if (songs.size() > 0) {
             mp3FilePath = songs.get(0).url;
             title.setText(songs.get(0).title);
+            mp3FilePath2 = songs.get(1).url;
         }
 
+        mPlayBackMusic = new PlayBackMusic(mp3FilePath);
+        mPlayBackMusic2 = new PlayBackMusic(mp3FilePath2);
         title.setText(title.getText().toString());
 
     }
@@ -117,32 +118,32 @@ public class MainActivity extends AppCompatActivity {
             recodeMixBtn.setText("stop");
             recodeMixBtn.setTag(this);
             mPlayBackMusic.startPlayBackMusic();
+            mPlayBackMusic2.startPlayBackMusic();
 
             mAudioEncoder = new AudioEncoder(medicCodecFile.getAbsolutePath());
             mAudioEncoder.prepareEncoder();
-//            // 测试 发现直接写入 播放的数据不清晰 猜测是 MediaFormat
-//            if(mPCMData.getMediaFormat() == null){
-//                // 先进行录制 再背景音乐播放
-//                mAudioEncoder.prepareEncoder();
-//            }else {
-//                // just test mPCMData.getMediaFormat() may null  背景音乐先播放 再进行录制
-//                // 录制的速率 太快
-//                mAudioEncoder.prepareEncoder(mPCMData.getMediaFormat());
-//            }
             mRecordMixTask = new RecordMixTask();
             mRecordMixTask.execute();
             if (mPlayBackMusic != null) {
                 mPlayBackMusic.setNeedRecodeDataEnable(true);
             }
+            if (mPlayBackMusic2 != null) {
+                mPlayBackMusic2.setNeedRecodeDataEnable(true);
+            }
         } else {
             recodeMixBtn.setText("recode");
             recodeMixBtn.setTag(null);
             mIsRecording = false;
-            mPlayBackMusic.release();
             mAudioEncoder.stop();
             mRecordMixTask.cancel(true);
+
+            mPlayBackMusic.release();
             if (mPlayBackMusic != null) {
                 mPlayBackMusic.setNeedRecodeDataEnable(false);
+            }
+            mPlayBackMusic2.release();
+            if (mPlayBackMusic2 != null) {
+                mPlayBackMusic2.setNeedRecodeDataEnable(false);
             }
         }
     }
@@ -203,15 +204,11 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-
         // 当在上面方法中调用publishProgress时，该方法触发,该方法在UI线程中被执行
         protected void onProgressUpdate(Integer... progress) {
-            //
         }
 
-
         protected void onPostExecute(Void result) {
-
         }
 
     }
@@ -282,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
     private byte[] mixBuffer(byte[] buffer) {
         if (mPlayBackMusic.hasFrameBytes()) {
 //            return mPlayBackMusic.getBackGroundBytes(); // 直接写入背景音乐数据
-            return BytesTransUtil.INSTANCE.averageMix(buffer, mPlayBackMusic.getBackGroundBytes());
+            return BytesTransUtil.INSTANCE.averageMix(mPlayBackMusic2.getBackGroundBytes(), mPlayBackMusic.getBackGroundBytes());
         }
         return buffer;
     }
@@ -290,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mIsPlaying = false;
         mIsRecording = false;
     }
 
