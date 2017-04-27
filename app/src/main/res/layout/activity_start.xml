@@ -40,15 +40,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:background="@drawable/ic_item_bg"
-                android:text="save"/>
+                android:text="audio mix"/>
 
             <TextView
                 android:id="@+id/btn_playback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:background="@drawable/ic_item_bg"
-                android:text="playback"/>
+                android:gravity="center"
+                android:text="audop track play"/>
 
             <TextView
                 android:id="@+id/btn_media_extractor"

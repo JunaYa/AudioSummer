@@ -108,6 +108,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(new Intent(this,MainActivity.class));
                 break;
             case R.id.btn_playback:
+                startActivity(new Intent(this,AudioTrackPlayActivity.class));
                 break;
             case R.id.btn_media_extractor:
                 startActivity(new Intent(this,MediaExtractorActivity.class));

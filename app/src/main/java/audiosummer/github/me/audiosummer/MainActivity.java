@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private PlayBackMusic mPlayBackMusic;
-    private PlayBackMusic mPlayBackMusic2;
+//    private PlayBackMusic mPlayBackMusic2;
 
 
     @Override
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mPlayBackMusic = new PlayBackMusic(mp3FilePath);
-        mPlayBackMusic2 = new PlayBackMusic(mp3FilePath2);
+//        mPlayBackMusic2 = new PlayBackMusic(mp3FilePath2);
         title.setText(title.getText().toString());
 
     }
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             recodeMixBtn.setText("stop");
             recodeMixBtn.setTag(this);
             mPlayBackMusic.startPlayBackMusic();
-            mPlayBackMusic2.startPlayBackMusic();
+//            mPlayBackMusic2.startPlayBackMusic();
 
             mAudioEncoder = new AudioEncoder(medicCodecFile.getAbsolutePath());
             mAudioEncoder.prepareEncoder();
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
             if (mPlayBackMusic != null) {
                 mPlayBackMusic.setNeedRecodeDataEnable(true);
             }
-            if (mPlayBackMusic2 != null) {
-                mPlayBackMusic2.setNeedRecodeDataEnable(true);
-            }
+//            if (mPlayBackMusic2 != null) {
+//                mPlayBackMusic2.setNeedRecodeDataEnable(true);
+//            }
         } else {
             recodeMixBtn.setText("recode");
             recodeMixBtn.setTag(null);
@@ -141,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
             if (mPlayBackMusic != null) {
                 mPlayBackMusic.setNeedRecodeDataEnable(false);
             }
-            mPlayBackMusic2.release();
-            if (mPlayBackMusic2 != null) {
-                mPlayBackMusic2.setNeedRecodeDataEnable(false);
-            }
+//            mPlayBackMusic2.release();
+//            if (mPlayBackMusic2 != null) {
+//                mPlayBackMusic2.setNeedRecodeDataEnable(false);
+//            }
         }
     }
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (mAudioEncoder != null) {
 //                        Log.i("slack","buffer length: " + buffer.length + " " + bufferReadResult + " " + bufferSize);
-                        buffer = mixBuffer(buffer);
+//                        buffer = mixBuffer(buffer);
                         //将音频数据发送给AudioEncoder类进行编码
                         mAudioEncoder.offerAudioEncoder(buffer, audioPresentationTimeNs);
                     }
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
     private byte[] mixBuffer(byte[] buffer) {
         if (mPlayBackMusic.hasFrameBytes()) {
 //            return mPlayBackMusic.getBackGroundBytes(); // 直接写入背景音乐数据
-            return BytesTransUtil.INSTANCE.averageMix(mPlayBackMusic2.getBackGroundBytes(), mPlayBackMusic.getBackGroundBytes());
+            return BytesTransUtil.INSTANCE.averageMix(buffer, mPlayBackMusic.getBackGroundBytes());
         }
         return buffer;
     }
